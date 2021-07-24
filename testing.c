@@ -26,7 +26,7 @@ void expect_helper(testing_logger_t *tester, int assertion, char* file, int line
     if (assertion) return;
 
     char temp[256];
-    sprintf(temp, "%s:%d expect(%s)", file, line, expr);
+    sprintf(temp, "%s:%d -> expect(%s);", file, line, expr);
     
     tester->failed_assertion = malloc(256);
     memcpy(tester->failed_assertion, temp, 256);
