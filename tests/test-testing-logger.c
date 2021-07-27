@@ -3,8 +3,8 @@
 #include <string.h>
 
 void test_working_tests() {
-    testing_logger_t *tester1 = init_tester();
-    testing_logger_t *tester2 = init_tester();
+    testing_logger_t *tester1 = create_tester();
+    testing_logger_t *tester2 = create_tester();
     char dest[MESSAGE_BYTES];
     char expected[MESSAGE_BYTES];
 
@@ -18,13 +18,13 @@ void test_working_tests() {
 
     expect(tester2, !strcmp(dest, expected));
 
-    free_logger(tester1);
+    destroy_tester(tester1);
     log_tests(tester2);
 }
 
 void test_semi_working_tests() {
-    testing_logger_t *tester1 = init_tester();
-    testing_logger_t *tester2 = init_tester();
+    testing_logger_t *tester1 = create_tester();
+    testing_logger_t *tester2 = create_tester();
     char dest[MESSAGE_BYTES];
     char expected[MESSAGE_BYTES];
 
@@ -40,13 +40,13 @@ void test_semi_working_tests() {
 
     expect(tester2, !strcmp(dest, expected));
 
-    free_logger(tester1);
+    destroy_tester(tester1);
     log_tests(tester2);
 }
 
 void test_semi_working_tests_2() {
-    testing_logger_t *tester1 = init_tester();
-    testing_logger_t *tester2 = init_tester();
+    testing_logger_t *tester1 = create_tester();
+    testing_logger_t *tester2 = create_tester();
     char dest[MESSAGE_BYTES];
     char expected[MESSAGE_BYTES];
 
@@ -62,13 +62,13 @@ void test_semi_working_tests_2() {
 
     expect(tester2, !strcmp(dest, expected));
     
-    free_logger(tester1);
+    destroy_tester(tester1);
     log_tests(tester2);
 }
 
 void test_non_working_tests() {
-    testing_logger_t *tester1 = init_tester();
-    testing_logger_t *tester2 = init_tester();
+    testing_logger_t *tester1 = create_tester();
+    testing_logger_t *tester2 = create_tester();
     char dest[MESSAGE_BYTES];
     char expected[MESSAGE_BYTES];
 
@@ -84,7 +84,7 @@ void test_non_working_tests() {
 
     expect(tester2, !strcmp(dest, expected));
 
-    free_logger(tester1);
+    destroy_tester(tester1);
     log_tests(tester2);
 }
 
