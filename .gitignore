@@ -1,6 +1,6 @@
 # Executable files
-*
-!*.*
+bin/
+obj/
 
 # Prerequisites
 *.d
@@ -54,3 +54,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# VSCode
+.vscode/
