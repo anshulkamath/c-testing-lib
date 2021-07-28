@@ -11,7 +11,7 @@ typedef struct testing_logger {
 
 const uint32_t MESSAGE_BYTES = 256;
 
-testing_logger_t* init_tester() {
+testing_logger_t* create_tester() {
     testing_logger_t *tester = malloc(sizeof(testing_logger_t));
 
     tester->failed_assertion = NULL;
@@ -47,10 +47,10 @@ void log_tests_helper(testing_logger_t *tester, const char* test_func) {
     sprintf_tests_helper(tester, dest, test_func);
     printf("%s", dest);
 
-    free_logger(tester);
+    destroy_tester(tester);
 }
 
-void free_logger(testing_logger_t *tester) {
+void destroy_tester(testing_logger_t *tester) {
     free(tester->failed_assertion);
     free(tester);
 }

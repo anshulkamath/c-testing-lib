@@ -21,7 +21,7 @@ extern const uint32_t MESSAGE_BYTES;
  * 
  * @return testing_logger_t* The instance of the testing logger that was made
  */
-testing_logger_t* init_tester();
+testing_logger_t* create_tester();
 
 /**
  * @brief Checks if an assertion is valid and, if not, logs the first
@@ -53,6 +53,6 @@ void log_tests_helper(testing_logger_t *tester, const char* test_func);
  * 
  * @param tester The testing logger struct to free
  */
-void free_logger(testing_logger_t *tester);
+void destroy_tester(testing_logger_t *tester);
 
 #endif
