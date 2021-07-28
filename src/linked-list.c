@@ -27,6 +27,9 @@ typedef struct linked_list {
     list_node_t *tail;      // pointer to the tail of the list
     size_t size;            // size of the list
     size_t num_bytes;       // number of bytes for the val
+    
+    // comparator callback function
+    int (*comparator) (const void *a, const void* b);
 } linked_list_t;
 
 typedef struct ll_iterator {
@@ -43,6 +46,7 @@ linked_list_t* create_list(size_t num_bytes) {
     list->tail = NULL;
     list->size = 0;
     list->num_bytes = num_bytes;
+    list->comparator = NULL;
     return list;
 }
 
@@ -134,6 +138,33 @@ void pop_back(linked_list_t *list, char *dest) {
     //  destroy the old head and decrement from size
     destroy_node(old_tail);
     --list->size;
+}
+
+void set_comparator(linked_list_t *list, int (*comparator)(const void *a, const void *b)) {
+    list->comparator = comparator;
+}
+
+int contains(linked_list_t *list, const char *val) {
+    list_node_t *curr = list->head;
+
+    while (curr) {
+        if (list->comparator ? list->comparator(curr->val, val) : curr->val == val)
+            return 1;
+
+        curr = curr->next;
+    }
+
+    return 0;
+}
+
+void get(linked_list_t *list, size_t index, char *dest) {
+    // don't do anything if the index is out of bounds
+    if (index >= size(list)) return;
+
+    list_node_t *node = list->head;
+    while(index--) node = node->next;
+
+    memcpy(dest, node->val, list->num_bytes);
 }
 
 void destroy_list(linked_list_t *list) {

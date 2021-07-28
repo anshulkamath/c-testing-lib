@@ -5,6 +5,11 @@
 
 const size_t NUM_BYTES = 256;
 
+// Helper function
+int compare_string(const char *a, const char *b) {
+    return strcmp(a, b) == 0;
+}
+
 void test_empty_list_attr() {
     // initialize testing variables
     testing_logger_t *tester = create_tester();
@@ -142,12 +147,66 @@ void test_pop_back() {
     log_tests(tester);
 }
 
+void test_contains() {
+    // initialize testing variables
+    testing_logger_t *tester = create_tester();
+    linked_list_t *list = create_list(NUM_BYTES);
+    set_comparator(list, compare_string);
+    
+    // GIVEN:
+    push_back(list, "Never gonna ");
+    push_back(list, "run around and ");
+    push_back(list, "desert you!");
+
+    expect(tester, contains(list, "Never gonna "));
+    expect(tester, !contains(list, "let you down"));
+
+    // destroy testing variables
+    destroy_list(list);
+    log_tests(tester);
+}
+
+void test_get() {
+    // initialize testing variables
+    testing_logger_t *tester = create_tester();
+    linked_list_t *list = create_list(NUM_BYTES);
+    char res[256] = ""; // manually set size to allow for initialized value
+    
+    // GIVEN:
+    push_back(list, "Never gonna ");
+    push_back(list, "run around and ");
+    push_back(list, "desert you!");
+
+    // invalid gets
+    get(list, -1, res);
+    expect(tester, !strcmp(res, ""));
+    
+    get(list, 3, res);
+    expect(tester, !strcmp(res, ""));
+
+    // valid gets
+    get(list, 0, res);
+    expect(tester, !strcmp(res, "Never gonna "));
+
+    get(list, 1, res);
+    expect(tester, !strcmp(res, "run around and "));
+
+    get(list, 2, res);
+    expect(tester, !strcmp(res, "desert you!"));
+
+    // destroy testing variables
+    destroy_list(list);
+    log_tests(tester);
+}
+
 int main() {
     test_empty_list_attr();
     test_push_front();
     test_push_back();
     test_pop_front();
     test_pop_back();
+    test_contains();
+    test_get();
 
     return 0;
 }

@@ -79,6 +79,16 @@ void pop_front(linked_list_t *list, char *dest);
 void pop_back(linked_list_t *list, char *dest);
 
 /**
+ * @brief Set the comparator function pointer in the linked list struct.
+ * The comparator should return 1 if its arguments are the same and 0 if
+ * they are not
+ * 
+ * @param list The linked list to add the comparator to
+ * @param comparator The comparator to set
+ */
+void set_comparator(linked_list_t *list, int (*comparator)(const void *a, const void *b));
+
+/**
  * @brief Returns 1 or 0 if the given element is in the list of not
  * 
  * @param list The list which we search
