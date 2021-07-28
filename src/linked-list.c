@@ -15,7 +15,6 @@ static void destroy_node(list_node_t *node);
 // **    Type definitions    **
 // ****************************
 
-
 typedef struct list_node {
     list_node_t *next;      // pointer to the next element
     list_node_t *prev;      // pointer to the previous element
@@ -35,6 +34,18 @@ typedef struct linked_list {
 typedef struct ll_iterator {
     list_node_t *curr;
 } ll_iterator_t;
+
+// **************************
+// **   Helper Functions   **
+// **************************
+
+/** Returns a pointer to the ith node in a list  */
+static list_node_t* get_ith_node(linked_list_t *list, size_t i) {
+    list_node_t *node = list->head;
+    while(i--) node = node->next;
+
+    return node;
+}
 
 // *****************************
 // **   Linked List Methods   **
@@ -161,10 +172,28 @@ void get(linked_list_t *list, size_t index, char *dest) {
     // don't do anything if the index is out of bounds
     if (index >= size(list)) return;
 
-    list_node_t *node = list->head;
-    while(index--) node = node->next;
+    list_node_t *node = get_ith_node(list, index);
 
     memcpy(dest, node->val, list->num_bytes);
+}
+
+void list_insert(linked_list_t *list, size_t index, const char *val) {
+    // don't do anything if the index is out of bounds
+    if (index > size(list)) return;
+
+    // if the index is either the beginning or end, pass to push_front/push_back
+    if (index == 0) {
+        push_front(list, val);
+        return;
+    } else if (index == size(list)) {
+        push_back(list, val);
+        return;
+    }
+
+    list_node_t *node = get_ith_node(list, index - 1);
+    node->next = create_node(val, list->num_bytes, node, node->next);
+
+    ++list->size;
 }
 
 void destroy_list(linked_list_t *list) {

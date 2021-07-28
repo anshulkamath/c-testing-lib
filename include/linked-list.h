@@ -113,7 +113,7 @@ void get(linked_list_t *list, size_t index, char *dest);
  * @param val The value to insert into the list
  * @param index The index to which we insert
  */
-void list_insert(linked_list_t *list, char *val, size_t index);
+void list_insert(linked_list_t *list, size_t index, const char *val);
 
 /**
  * @brief Deletes an element at the given index from the linked list
