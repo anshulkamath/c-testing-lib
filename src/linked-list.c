@@ -28,11 +28,12 @@ typedef struct linked_list {
     size_t num_bytes;       // number of bytes for the val
     
     // comparator callback function
-    int (*comparator) (const void *a, const void* b);
+    int (*comparator) (const void *, const void *);
 } linked_list_t;
 
 typedef struct ll_iterator {
-    list_node_t *curr;
+    list_node_t *curr;      // the current value the iterator points to
+    size_t num_bytes;       // the number of bytes to store the value
 } ll_iterator_t;
 
 // **************************
@@ -151,7 +152,7 @@ void pop_back(linked_list_t *list, char *dest) {
     --list->size;
 }
 
-void set_comparator(linked_list_t *list, int (*comparator)(const void *a, const void *b)) {
+void set_comparator(linked_list_t *list, int (*comparator)(const void *, const void *)) {
     list->comparator = comparator;
 }
 
@@ -254,3 +255,53 @@ void destroy_node(list_node_t *node) {
 // **************************
 // **   Iterator Methods   **
 // **************************
+
+ll_iterator_t* create_iterator(linked_list_t *list) {
+    ll_iterator_t *iter = malloc(sizeof(ll_iterator_t));
+    iter->curr = list->head;
+    iter->num_bytes = list->num_bytes;
+
+    return iter;
+}
+
+void peek(ll_iterator_t *iter, char *dest) {
+    memcpy(dest, iter->curr->val, iter->num_bytes);
+}
+
+int has_next(ll_iterator_t *iter) {
+    return iter->curr->next != NULL;
+}
+
+int next(ll_iterator_t *iter) {
+    iter->curr = iter->curr->next;
+
+    if (!iter->curr) {
+        destroy_iterator(iter);
+        return 0;
+    }
+
+    return 1;
+}
+
+void sprint_list(linked_list_t *list, char *dest) {
+    ll_iterator_t *iter = create_iterator(list);
+    memset(dest, 0, list->size * list->num_bytes);
+    strcat(dest, iter->curr->val);
+
+    // destroys iterator for us
+    while(next(iter)) {
+        strcat(dest, " ");
+        strcat(dest, iter->curr->val);
+    }
+}
+
+void print_list(linked_list_t *list) {
+    char dest[list->size * list->num_bytes];
+    sprint_list(list, dest);
+    printf("%s\n", dest);
+
+}
+
+void destroy_iterator(ll_iterator_t *iter) {
+    free(iter);
+}

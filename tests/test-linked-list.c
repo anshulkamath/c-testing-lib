@@ -6,8 +6,8 @@
 const size_t NUM_BYTES = 256;
 
 // Helper function
-int compare_string(const char *a, const char *b) {
-    return strcmp(a, b) == 0;
+int compare_string(const void *a, const void *b) {
+    return strcmp((char *)a, (char *)b) == 0;
 }
 
 void test_empty_list_attr() {
@@ -297,6 +297,58 @@ void test_list_delete() {
     log_tests(tester);
 }
 
+void test_iterator() {
+    // initialize testing variables
+    testing_logger_t *tester = create_tester();
+    linked_list_t *list = create_list(NUM_BYTES);
+    char res[NUM_BYTES];
+    
+    // GIVEN:
+    push_back(list, "Never gonna ");
+    push_back(list, "run around and ");
+    push_back(list, "desert you!");
+
+    ll_iterator_t *iter = create_iterator(list);
+
+    peek(iter, res);
+    expect(tester, compare_string(res, "Never gonna "));
+    expect(tester, has_next(iter));
+    expect(tester, next(iter));
+
+    peek(iter, res);
+    expect(tester, compare_string(res, "run around and "));
+    expect(tester, has_next(iter));
+    expect(tester, next(iter));
+
+    peek(iter, res);
+    expect(tester, compare_string(res, "desert you!"));
+    expect(tester, !has_next(iter));
+    expect(tester, !next(iter));
+
+    // destroy testing variables
+    destroy_list(list);
+    log_tests(tester);
+}
+
+void test_sprint_list() {
+    // initialize testing variables
+    testing_logger_t *tester = create_tester();
+    linked_list_t *list = create_list(NUM_BYTES);
+    char res[3 * NUM_BYTES];
+    
+    // GIVEN:
+    push_back(list, "Never gonna");
+    push_back(list, "run around and");
+    push_back(list, "desert you!");
+
+    sprint_list(list, res);
+    expect(tester, compare_string(res, "Never gonna run around and desert you!"));
+
+    // destroy testing variables
+    destroy_list(list);
+    log_tests(tester);
+}
+
 int main() {
     test_empty_list_attr();
     test_push_front();
@@ -307,6 +359,8 @@ int main() {
     test_get();
     test_list_insert();
     test_list_delete();
+    test_iterator();
+    test_sprint_list();
 
     return 0;
 }

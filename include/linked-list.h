@@ -86,7 +86,7 @@ void pop_back(linked_list_t *list, char *dest);
  * @param list The linked list to add the comparator to
  * @param comparator The comparator to set
  */
-void set_comparator(linked_list_t *list, int (*comparator)(const void *a, const void *b));
+void set_comparator(linked_list_t *list, int (*comparator)(const void *, const void *));
 
 /**
  * @brief Returns 1 or 0 if the given element is in the list of not
@@ -156,6 +156,21 @@ void peek(ll_iterator_t *iterator, char *dest);
  * @return int Returns 0 if the iterator has been exhausted. Else, returns 1
  */
 int next(ll_iterator_t *iterator);
+
+/**
+ * @brief Writes string representation of the given list to the given pointer
+ * 
+ * @param list The list to print the string representation of
+ * @param dest The pointer to hold the string
+ */
+void sprint_list(linked_list_t *list, char *dest);
+
+/**
+ * @brief Prints the string representation of a list
+ * 
+ * @param list The list to print the string representation of
+ */
+void print_list(linked_list_t *list);
 
 /**
  * @brief Safely frees all memory allocated to the iterator
