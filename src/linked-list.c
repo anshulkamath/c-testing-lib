@@ -196,6 +196,32 @@ void list_insert(linked_list_t *list, size_t index, const char *val) {
     ++list->size;
 }
 
+void list_delete(linked_list_t *list, size_t index, char *dest) {
+    // don't do anything if the index is out of bounds
+    if (index > size(list)) return;
+
+    // if the index is either the beginning or end, pass to push_front/push_back
+    if (index == 0) {
+        pop_front(list, dest);
+        return;
+    } else if (index == size(list) - 1) {
+        pop_back(list, dest);
+        return;
+    }
+
+    list_node_t *node = get_ith_node(list, index);
+    memcpy(dest, node->val, list->num_bytes);
+
+    // re-link the nodes on either side of the deleted node
+    node->prev->next = node->next;
+    node->next->prev = node->prev;
+
+    // deallocate memory on heap for the node that was deleted
+    destroy_node(node);
+
+    --list->size;
+}
+
 void destroy_list(linked_list_t *list) {
     while (list->head) {
         list_node_t *old_head = list->head;

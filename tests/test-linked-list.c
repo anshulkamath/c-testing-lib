@@ -248,6 +248,55 @@ void test_list_insert() {
     log_tests(tester);
 }
 
+void test_list_delete() {
+    // initialize testing variables
+    testing_logger_t *tester = create_tester();
+    linked_list_t *list = create_list(NUM_BYTES);
+    char res[NUM_BYTES];
+    
+    // GIVEN:
+    push_back(list, "ba");
+    push_back(list, "Never gonna ");
+    push_back(list, "dum");
+    push_back(list, "run around and ");
+    push_back(list, "desert you!");
+    push_back(list, "taa");
+
+    // invalid deletes
+    list_delete(list, -1, res);
+    expect(tester, size(list) == 6);
+    expect(tester, compare_string(get_head(list), "ba"));
+    expect(tester, compare_string(get_tail(list), "taa"));
+    
+    list_delete(list, 7, res);
+    expect(tester, size(list) == 6);
+    expect(tester, compare_string(get_head(list), "ba"));
+    expect(tester, compare_string(get_tail(list), "taa"));
+
+    // valid deletes
+    list_delete(list, 0, res);
+    expect(tester, size(list) == 5);
+    expect(tester, compare_string(res, "ba"));
+    expect(tester, compare_string(get_head(list), "Never gonna "));
+    expect(tester, compare_string(get_tail(list), "taa"));
+
+    list_delete(list, 1, res);
+    expect(tester, size(list) == 4);
+    expect(tester, compare_string(res, "dum"));
+    expect(tester, compare_string(get_head(list), "Never gonna "));
+    expect(tester, compare_string(get_tail(list), "taa"));
+
+    list_delete(list, 3, res);
+    expect(tester, size(list) == 3);
+    expect(tester, compare_string(res, "taa"));
+    expect(tester, compare_string(get_head(list), "Never gonna "));
+    expect(tester, compare_string(get_tail(list), "desert you!"));
+
+    // destroy testing variables
+    destroy_list(list);
+    log_tests(tester);
+}
+
 int main() {
     test_empty_list_attr();
     test_push_front();
@@ -257,6 +306,7 @@ int main() {
     test_contains();
     test_get();
     test_list_insert();
+    test_list_delete();
 
     return 0;
 }
