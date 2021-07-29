@@ -5,10 +5,12 @@ CFLAGS = -g -Wall -Wextra -pedantic -std=c17 -fsanitize=address -Wno-unused-comm
 
 SRC_FILES = testing-logger linked-list
 OBJ_FILES = $(addprefix obj/,$(SRC_FILES:=.o))
+LIB_FILES = testing-logger linked-list
 
-MAIN =
+MAIN = testing-example
 MAIN_BINS = $(addprefix bin/,$(MAIN))
 TEST_BINS = $(addprefix bin/test-, $(SRC_FILES))
+LIBS_ARCH = $(addprefix lib/lib, $(LIB_FILES:=.a))
 
 all: $(MAIN_BINS) $(TEST_BINS)
 
@@ -49,8 +51,8 @@ memcheck:
 
 .SECONDARY: 
 
-lib/liblinked-list.a: obj/linked-list.o | lib
-	ar rcs $@ $<
+# Library files
+libs: $(LIBS_ARCH)
 
-lib/libtesting-logger.a: obj/testing-logger.o | lib
+lib/lib%.a: obj/%.o | lib
 	ar rcs $@ $<
