@@ -8,7 +8,7 @@ OBJ_FILES = $(addprefix obj/,$(SRC_FILES:=.o))
 
 MAIN =
 MAIN_BINS = $(addprefix bin/,$(MAIN))
-TEST_BINS = $(addprefix bin/test-, $(SRC_FILES))
+TEST_BINS = bin/test-testing-logger #$(addprefix bin/test-, $(SRC_FILES))
 
 all: $(MAIN_BINS) $(TEST_BINS)
 
