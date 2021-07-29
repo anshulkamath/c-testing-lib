@@ -78,7 +78,11 @@ char* get_tail(linked_list_t *list) {
     return list->tail ? list->tail->val : NULL;
 }
 
-void push_front(linked_list_t *list, const char *val) {
+void push_front(linked_list_t *list, const char *insertee) {
+    // preventing global buffer overflow
+    char val[list->num_bytes];
+    strcpy(val, insertee);
+
     if (!list->size) {
         list->head = create_node(val, list->num_bytes, NULL, NULL);
         list->tail = list->head;
@@ -96,12 +100,16 @@ void push_front(linked_list_t *list, const char *val) {
     ++list->size;
 }
 
-void push_back(linked_list_t *list, const char *val) {
+void push_back(linked_list_t *list, const char *insertee) {
     // if the list is empty, handle with push_front
     if (!list->size) {
-        push_front(list, val);
+        push_front(list, insertee);
         return;
     }
+
+    // preventing global buffer overflow
+    char val[list->num_bytes];
+    strcpy(val, insertee);
 
     // add a new node to the end of the list with a copy of the given value
     // then make the new tail point to the new node
@@ -178,18 +186,22 @@ void get(linked_list_t *list, size_t index, char *dest) {
     memcpy(dest, node->val, list->num_bytes);
 }
 
-void list_insert(linked_list_t *list, size_t index, const char *val) {
+void list_insert(linked_list_t *list, size_t index, const char *insertee) {
     // don't do anything if the index is out of bounds
     if (index > size(list)) return;
 
     // if the index is either the beginning or end, pass to push_front/push_back
     if (index == 0) {
-        push_front(list, val);
+        push_front(list, insertee);
         return;
     } else if (index == size(list)) {
-        push_back(list, val);
+        push_back(list, insertee);
         return;
     }
+
+    // preventing global buffer overflow
+    char val[list->num_bytes];
+    strcpy(val, insertee);
 
     list_node_t *node = get_ith_node(list, index - 1);
     node->next = create_node(val, list->num_bytes, node, node->next);

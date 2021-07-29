@@ -52,7 +52,7 @@ char* get_tail(linked_list_t *list);
  * @param list The list to which we append
  * @param val The value that is appended
  */
-void push_front(linked_list_t *list, const char *val);
+void push_front(linked_list_t *list, const char *insertee);
 
 /**
  * @brief Append an element to the back of a list object
@@ -60,7 +60,7 @@ void push_front(linked_list_t *list, const char *val);
  * @param list The list object to which we append
  * @param val The value that is appended
  */
-void push_back(linked_list_t *list, const char *val);
+void push_back(linked_list_t *list, const char *insertee);
 
 /**
  * @brief Pops an element off the front of a list and put it in dest
@@ -107,16 +107,17 @@ int contains(linked_list_t *list, const char *val);
 void get(linked_list_t *list, size_t index, char *dest);
 
 /**
- * @brief Inersts an element into the linked list at the given index
+ * @brief Inserts an element into the linked list at the given index
  * 
  * @param list The list which we insert into
  * @param val The value to insert into the list
  * @param index The index to which we insert
  */
-void list_insert(linked_list_t *list, size_t index, const char *val);
+void list_insert(linked_list_t *list, size_t index, const char *insertee);
 
 /**
- * @brief Deletes an element at the given index from the linked list
+ * @brief Deletes an element at the given index from the linked list.
+ * @pre The destination pointer must have sufficient space to store the value
  * 
  * @param list The list which we delete from
  * @param index The index of the element to delete

@@ -1,7 +1,7 @@
-CC = cc
+CC = /usr/local/opt/llvm/bin/clang
 INCLUDES = -Iinclude -I/usr/local/include 
-LIBS = -L/usr/local/lib
-CFLAGS = -g -Wall -Wextra -pedantic -std=c17 -Wno-unused-command-line-argument -std=c17 $(INCLUDES) $(LIBS)
+LIBS = -L/usr/local/lib -L./lib
+CFLAGS = -g -Wall -Wextra -pedantic -std=c17 -fsanitize=address -Wno-unused-command-line-argument -std=c17 $(INCLUDES) $(LIBS)
 
 SRC_FILES = testing-logger linked-list
 OBJ_FILES = $(addprefix obj/,$(SRC_FILES:=.o))
@@ -17,6 +17,8 @@ obj:
 	mkdir obj
 bin:
 	mkdir bin
+lib:
+	mkdir lib
 
 # Binary targets
 bin/%: main/%.c $(OBJ_FILES) | bin
@@ -46,3 +48,9 @@ memcheck:
 	ASAN_OPTIONS=detect_leaks=1 ./bin/main
 
 .SECONDARY: 
+
+lib/liblinked-list.a: obj/linked-list.o | lib
+	ar rcs $@ $<
+
+lib/libtesting-logger.a: obj/testing-logger.o | lib
+	ar rcs $@ $<
