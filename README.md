@@ -19,4 +19,4 @@ To use this library, you must download the repo and make the library archive fil
 ```
 make libs
 ```
-This will create a `libs/` folder with two `.a` files. You can move these `.a` files to your project library. Additionally, you must copy the include headers `testing-logger.h` and `linked-list.h` to your project include directory as well. Finally, you must link to `-ltesting-logger` and `-llinked-list` when compiling.
+This will create a `lib/` folder with a `.a` files. You can move this `.a` file to your project library. Additionally, you must copy the header file `testing-logger.h` to your project include directory as well. Finally, you must link to `-ltesting-logger` when compiling.

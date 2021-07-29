@@ -1,11 +1,11 @@
 CC = /usr/local/opt/llvm/bin/clang
 INCLUDES = -Iinclude -I/usr/local/include 
-LIBS = -L/usr/local/lib -L./lib
+LIBS = -L/usr/local/lib
 CFLAGS = -g -Wall -Wextra -pedantic -std=c17 -fsanitize=address -Wno-unused-command-line-argument -std=c17 $(INCLUDES) $(LIBS)
 
-SRC_FILES = testing-logger linked-list
+SRC_FILES = testing-logger tester-list
 OBJ_FILES = $(addprefix obj/,$(SRC_FILES:=.o))
-LIB_FILES = testing-logger linked-list
+LIB_FILES = testing-logger
 
 MAIN = testing-example
 MAIN_BINS = $(addprefix bin/,$(MAIN))
@@ -42,6 +42,7 @@ obj/%.o: tests/%.c | obj
 clean:
 	rm -rf bin
 	rm -rf obj
+	rm -rf lib
 
 test: $(TEST_BINS)
 	@for f in $(TEST_BINS); do echo $$f; ASAN_OPTIONS=detect_leaks=1 $$f; echo; done
@@ -54,5 +55,5 @@ memcheck:
 # Library files
 libs: $(LIBS_ARCH)
 
-lib/lib%.a: obj/%.o | lib
-	ar rcs $@ $<
+lib/lib%.a: $(OBJ_FILES) | lib
+	ar rcs $@ $^
