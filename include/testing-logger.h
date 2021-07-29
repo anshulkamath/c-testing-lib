@@ -3,11 +3,11 @@
 
 #include <stdlib.h>
 
-#define GREEN   "\x1b[32m"
+#define GRN     "\x1b[32m"
 #define RESET   "\x1b[0m"
 #define RED     "\x1b[31m"
 #define MAG     "\x1b[35m"
-#define YEL     "\x1b[0m"
+#define YEL     "\x1b[33m"
 
 #define expect(tester, assertion) expect_helper(tester, assertion, __FILE__, __LINE__, #assertion)
 #define log_tests(tester) log_tests_helper(tester, __FUNCTION__)

@@ -1,14 +1,14 @@
-CC = cc
+CC = /usr/local/opt/llvm/bin/clang
 INCLUDES = -Iinclude -I/usr/local/include 
-LIBS = -L/usr/local/lib
-CFLAGS = -g -Wall -Wextra -pedantic -std=c17 -Wno-unused-command-line-argument -std=c17 $(INCLUDES) $(LIBS)
+LIBS = -L/usr/local/lib -L./lib
+CFLAGS = -g -Wall -Wextra -pedantic -std=c17 -fsanitize=address -Wno-unused-command-line-argument -std=c17 $(INCLUDES) $(LIBS)
 
 SRC_FILES = testing-logger linked-list
 OBJ_FILES = $(addprefix obj/,$(SRC_FILES:=.o))
 
 MAIN =
 MAIN_BINS = $(addprefix bin/,$(MAIN))
-TEST_BINS = $(addprefix bin/test-, $(SRC_FILES))
+TEST_BINS = bin/test-testing-logger #$(addprefix bin/test-, $(SRC_FILES))
 
 all: $(MAIN_BINS) $(TEST_BINS)
 
