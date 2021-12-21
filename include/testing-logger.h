@@ -1,6 +1,10 @@
 #ifndef TESTING_H
 #define TESTING_H
 
+#ifdef __cplusplus
+extern 'C' {
+#endif
+
 #include <stdlib.h>
 
 #define GRN     "\x1b[32m"
@@ -54,5 +58,9 @@ void log_tests_helper(testing_logger_t *tester, const char* test_func);
  * @param tester The testing logger struct to free
  */
 void destroy_tester(testing_logger_t *tester);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -1,6 +1,10 @@
 #ifndef TESTER_LIST_H
 #define TESTER_LIST_H
 
+#ifdef __cplusplus
+extern 'C' {
+#endif
+
 #include <stdlib.h>
 
 typedef struct tester_list tester_list_t;
@@ -92,5 +96,9 @@ void t_destroy_iterator(tl_iterator_t *iterator);
  * @param list The list to delete
  */
 void t_destroy_list(tester_list_t *list);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
